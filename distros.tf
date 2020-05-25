@@ -26,7 +26,10 @@ locals {
     },
   }
   
-  distros = {}
+  
+  distros = {
+    pippo = {boot = {kernel="/mnt/images/pxeboot/vmlinuz", initrd="/mnt/images/pxeboot/initrd"}}
+  }
 }
 
 resource "cobbler_distro" "distros" {
