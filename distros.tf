@@ -4,7 +4,6 @@ locals {
       kernel                  = null,
       options                 = "",
       initrd                  = null,
-      others                  = {},
     },
     
     description               = "",
@@ -28,7 +27,15 @@ locals {
   
   
   distros = {
-    pippo = {boot = {kernel="/mnt/images/pxeboot/vmlinuz", initrd="/mnt/images/pxeboot/initrd.img", others={"/tftp/path/TRANS.TBL"="/mnt/images/pxeboot/TRANS.TBL"}}}
+    pippo = {
+      boot = {
+        kernel="/mnt/images/pxeboot/vmlinuz",
+        initrd="/mnt/images/pxeboot/initrd.img",
+      },
+      cms = {
+        roles = ["bastion", "provider"]
+      },
+    }
   }
 }
 
@@ -44,7 +51,6 @@ resource "cobbler_distro" "distros" {
     
     kernel                    = try(each.value.boot.kernel, local.__distros_default_values.boot.kernel)
     initrd                    = try(each.value.boot.initrd, local.__distros_default_values.boot.initrd)
-    boot_files                = join(" ", try(each.value.boot.others, local.__distros_default_values.boot.others))
     kernel_options            = try(each.value.boot.options, local.__distros_default_values.boot.options)
       
     mgmt_classes              = try(each.value.cms.roles, local.__distros_default_values.cms.roles)
