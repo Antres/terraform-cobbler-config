@@ -25,7 +25,7 @@ locals {
 }
 
 resource "cobbler_repo" "repos" {
-  for_each                = { for k, v in local.repos: k => merge(v, local.__repos_default_values) }
+  for_each                = { for k, v in local.repos: k => merge(local.__repos_default_values, v) }
   
     name                  = format("%s", each.key)
 #   mirror                = local.repos[each.value].mirror
