@@ -1,3 +1,3 @@
 variable "repos" {
-  type            = list(object(any))
+  type            = map(object(any))
 }
