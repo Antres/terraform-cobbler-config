@@ -20,7 +20,7 @@ locals {
       templates               = {},
     },
     
-    redhat_management = {
+    rh = {
       key                     = "",
       server                  = "",
     },
@@ -33,7 +33,12 @@ locals {
 }
 
 resource "cobbler_distro" "distros" {
-  for_each                    = { for name, distro in local.distros: name => merge(local.__distros_default_values, distro) }
+  for_each                    = { for name, distro in local.distros: name => merge(local.__distros_default_values,
+                                                                                   distro,
+                                                                                   merge( { boot = local.__distros_default_values.boot }, distro.boot),
+                                                                                   merge( { cms  = local.__distros_default_values.cms },  distro.cms),
+                                                                                   merge( { rh   = local.__distros_default_values.rh },   distro.rh)
+                                                                             ) }
     
     name                      = each.key
     comment                   = each.value.description
@@ -50,6 +55,6 @@ resource "cobbler_distro" "distros" {
     mgmt_classes              = each.value.cms.roles
     template_files            = join(" ", [ for template, file in each.value.cms.templates: format("%s=%s", template, file) ] )
       
-    redhat_management_key     = each.value.redhat_management.key
-    redhat_management_server  = each.value.redhat_management.server
+    redhat_management_key     = each.value.rh.key
+    redhat_management_server  = each.value.rh.server
 }
