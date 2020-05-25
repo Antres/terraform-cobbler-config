@@ -26,6 +26,7 @@ locals {
       boot = {
         kernel="/mnt/images/pxeboot/vmlinuz",
         initrd="/mnt/images/pxeboot/initrd.img",
+        options="console=tty0 console=ttyS0,8,n,1 noapic",
       },
     }
   }
