@@ -10,7 +10,7 @@ locals {
     update                        = true,             # --keep-updated=UPDATE                 Keep Updated (Update this repo on next 'cobbler reposync'?)
     environment                   = "",               # --environment=ENVIRONMENT             Environment Variables (Use these environment variables during commands (key=value, space delimited))
     flags                         = "",               # --createrepo-flags=FLAGS              Createrepo Flags (Flags to use with createrepo)
-    proxy                         = "",
+    proxy                         = "",               # --proxy=PROXY                         External proxy URL (ex: http://example.com:8080)
     
     owners                        = ["admin"],        # --owners=OWNERS                       Owners (Owners list for authz_ownership (space delimited))
     
@@ -38,10 +38,22 @@ resource "cobbler_repo" "repos" {
     name                  = format("%s", each.key)
     mirror                = each.value.link
   
-    comment               = each.value.comment
+    comment               = each.value.description
     arch                  = each.value.arch
     breed                 = each.value.breed
   
     mirror_locally        = each.value.local
     keep_updated          = each.value.update
+    environment           = each.value.environment
+    createrepo_flags      = each.value.flags
+    proxy                 = each.value.proxy
+    
+    owners                = each.value.owners
+    
+    #yum
+    rpm_list              = each.value.yum.rpms
+    
+    #apt
+    apt_components        = each.value.apt.apt_components
+    apt_dists             = each.value.apt.apt_dists
 }
