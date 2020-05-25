@@ -44,7 +44,7 @@ resource "cobbler_distro" "distros" {
     
     kernel                    = each.value.boot.kernel
     initrd                    = each.value.boot.initrd
-    boot_files                = join(" ", each.value.boot.other)
+    boot_files                = join(" ", each.value.boot.others)
     kernel_options            = join(" ", [ for name, value in each.value.boot.options: format("%s=%s", name, value) ] )
       
     mgmt_classes              = each.value.cms.roles
