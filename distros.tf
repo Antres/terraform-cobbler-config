@@ -33,25 +33,23 @@ locals {
 }
 
 resource "cobbler_distro" "distros" {
-  for_each                    = { for name, distro in local.distros: name =>
-                                    merge(local.__distros_default_values, distro)
-                                }
+  for_each                    = local.distros
     
     name                      = each.key
-    comment                   = each.value.description
+    comment                   = try(each.value.description, local.__distros_default_values.description)
     
-    breed                     = each.value.breed
-    arch                      = each.value.arch
-    os_version                = each.value.os_version
+    breed                     = try(each.value.breed, local.__distros_default_values.breed)
+    arch                      = try(each.value.arch, local.__distros_default_values.arch)
+    os_version                = try(each.value.os_version, local.__distros_default_values.os_version)
     
-    kernel                    = each.value.boot.kernel
-    initrd                    = each.value.boot.initrd
-    boot_files                = join(" ", each.value.boot.others)
-    kernel_options            = join(" ", [ for name, value in each.value.boot.options: format("%s=%s", name, value) ] )
+    kernel                    = try(each.value.boot.kernel, local.__distros_default_values.boot.kernel)
+    initrd                    = try(each.value.boot.initrd, local.__distros_default_values.boot.initrd)
+    boot_files                = join(" ", try(each.value.boot.others, local.__distros_default_values.boot.others))
+    kernel_options            = join(" ", [ for name, value in try(each.value.boot.options, local.__distros_default_values.boot.options): format("%s=%s", name, value) ] )
       
-    mgmt_classes              = each.value.cms.roles
-    template_files            = join(" ", [ for template, file in each.value.cms.templates: format("%s=%s", template, file) ] )
+    mgmt_classes              = try(each.value.cms.roles, local.__distros_default_values.cms.roles)
+    template_files            = join(" ", [ for template, file in try(each.value.cms.templates, local.__distros_default_values.cms.templates): format("%s=%s", template, file) ] )
       
-    redhat_management_key     = each.value.rh.key
-    redhat_management_server  = each.value.rh.server
+    redhat_management_key     = try(each.value.rh.key, local.__distros_default_values.rh.key)
+    redhat_management_server  = try(each.value.rh.server, local.__distros_default_values.rh.server)
 }
