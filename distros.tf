@@ -11,7 +11,7 @@ locals {
     
     arch                      = "x86_64",
     breed                     = "redhat",
-    os_version                = "other",
+    os_version                = "",
     
     owners                    = ["admin"],
     
