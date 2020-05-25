@@ -9,7 +9,7 @@ locals {
 }
 
 resource "cobbler_repo" "my_repo" {
-  for_each = toset(local.repos)
+  for_each = toset(keys(local.repos))
   
   name           = each.value
   
