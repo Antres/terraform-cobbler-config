@@ -1,7 +1,7 @@
 variable "repos" {
   description       = <<EOT
 A Map of repositories:
-
+                                          Default Values      # cobbler repo ...
 {
   <NAME> = {
             link                          = null              # --mirror=LINK                         Mirror (Address of yum or rsync repo to mirror)
@@ -29,10 +29,15 @@ A Map of repositories:
 
   }
 }
+
+Examples:
+{
+  "yum-foo-x86_64"      = { link = "http://foo/x86_64" },
+  "yum-foo-i386"        = { link = "http://foo/i386", arch = "i386" },
+
+  "apt-bar-x86_64"      = { link = "http://bar/x86_64", breed = "apt" },
+  "apt-bar-i386"        = { link = "http://bar/noarch", breed = "apt", arch = "noarch" },
+}
+
 EOT
-  
-  validation {
-    condition     = true
-    error_message = ""
-  }
 }
