@@ -5,4 +5,5 @@ resource "cobbler_repo" "my_repo" {
   mirror         = "http://10.0.1.1/centos/"
   
   mirror_locally = false
+  keep_updated = true
 }
