@@ -28,7 +28,7 @@ locals {
   
   
   distros = {
-    pippo = {boot = {kernel="/mnt/images/pxeboot/vmlinuz", initrd="/mnt/images/pxeboot/initrd.img"}}
+    pippo = {boot = {kernel="/mnt/images/pxeboot/vmlinuz", initrd="/mnt/images/pxeboot/initrd.img", options={opt1="optA", opt2="optB"}}}
   }
 }
 
