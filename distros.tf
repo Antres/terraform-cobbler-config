@@ -14,11 +14,6 @@ locals {
     
     owners                    = ["admin"],
     
-    cms = {
-      roles                   = [],
-      templates               = {},
-    },
-    
     rh = {
       key                     = "",
       server                  = "",
@@ -31,9 +26,6 @@ locals {
       boot = {
         kernel="/mnt/images/pxeboot/vmlinuz",
         initrd="/mnt/images/pxeboot/initrd.img",
-      },
-      cms = {
-        roles = ["bastion", "provider"]
       },
     }
   }
