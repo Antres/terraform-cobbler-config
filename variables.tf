@@ -1,4 +1,6 @@
 variable "repos" {
+  default           = {}
+  
   description       = <<EOT
 A Map of repositories:
                                           Default Values      # cobbler repo ...
