@@ -41,11 +41,11 @@ resource "cobbler_distro" "distros" {
     
     kernel                    = each.value.boot.kernel
     initrd                    = each.value.boot.initrd
-    boot_files                = join(" ", each.value.boot.other)
-    kernel_options            = join(" ", [ for name, value in each.value.boot.options: format("%s=%s", name, value) ] )
+    boot_files                = join(" ", toset(each.value.boot.other))
+    kernel_options            = join(" ", toset([ for name, value in each.value.boot.options: format("%s=%s", name, value) ]) )
       
-    mgmt_classes              = join(" ", each.value.cms.roles)
-    template_files            = join(" ", [ for template, file in each.value.cms.templates: format("%s=%s", template, file) ] )
+    mgmt_classes              = join(" ", toset(each.value.cms.roles))
+    template_files            = join(" ", toset([ for template, file in each.value.cms.templates: format("%s=%s", template, file) ]) )
       
     redhat_management_key     = each.value.redhat_management.key
     redhat_management_server  = each.value.redhat_management.server
