@@ -23,15 +23,11 @@ locals {
       apt_dists                   = [],               # --apt-dists=APT_DISTS                 Apt Dist Names (apt only) (ex: precise precise-updates)
     },
   }
-  
-  repos = {
-  }
-  
 }
 
 resource "cobbler_repo" "repos" {
-                                                            # Override defaults with input values
-  for_each                = { for k, v in local.repos: k => merge(local.__repos_default_values, v) }
+                                                                   # Override defaults with input values
+  for_each                = { for name, repo in var.repos: name => merge(local.__repos_default_values, repo) }
   
                             # Name's format <BREED>-<ARCH>-<NAME>, ex: yum-x86_64-foo
     name                  = format("%s-%s-%s", each.value.breed, each.value.arch, each.key)
