@@ -52,7 +52,9 @@ resource "cobbler_distro" "distros" {
     kernel                    = try(each.value.boot.kernel, local.__distros_default_values.boot.kernel)
     initrd                    = try(each.value.boot.initrd, local.__distros_default_values.boot.initrd)
     kernel_options            = try(each.value.boot.options, local.__distros_default_values.boot.options)
-      
+    
+    owners                    = try(each.value.owners, local.__distros_default_values.owners)
+  
     mgmt_classes              = try(each.value.cms.roles, local.__distros_default_values.cms.roles)
     template_files            = join(" ", [ for template, file in try(each.value.cms.templates, local.__distros_default_values.cms.templates): format("%s=%s", template, file) ] )
       
