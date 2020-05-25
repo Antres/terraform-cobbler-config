@@ -12,7 +12,7 @@ locals {
     flags                         = "",               # --createrepo-flags=FLAGS              Createrepo Flags (Flags to use with createrepo)
     proxy                         = "",               # --proxy=PROXY                         External proxy URL (ex: http://example.com:8080)
     
-    owners                        = ["admin"],        # --owners=OWNERS                       Owners (Owners list for authz_ownership (space delimited))
+    owners                        = [],               # --owners=OWNERS                       Owners (Owners list for authz_ownership (space delimited))
     
     yum = {
       rpms                        = [],               # --rpm-list=RPMS                       RPM List (Mirror just these RPMs (yum only))
