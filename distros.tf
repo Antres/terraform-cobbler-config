@@ -33,7 +33,7 @@ locals {
 }
 
 resource "cobbler_distro" "distros" {
-  for_each                    = { for name, distro in local.distros: name => merge(local.__repos_default_values, distro) }
+  for_each                    = { for name, distro in local.distros: name => merge(local.__distros_default_values, distro) }
     
     name                      = each.key
     comment                   = each.value.description
