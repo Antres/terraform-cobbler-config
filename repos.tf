@@ -35,7 +35,8 @@ resource "cobbler_repo" "repos" {
                                                             # Override defaults with input values
   for_each                = { for k, v in local.repos: k => merge(local.__repos_default_values, v) }
   
-    name                  = format("%s", each.key)
+                            # Name's format <BREED>-<ARCH>-<NAME>, ex: yum-x86_64-foo
+    name                  = format("%s-%s-%s", each.value.breed, each.value.arch, each.key)
     mirror                = each.value.link
   
     comment               = each.value.description
