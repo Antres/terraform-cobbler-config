@@ -34,10 +34,7 @@ locals {
 
 resource "cobbler_distro" "distros" {
   for_each                    = { for name, distro in local.distros: name =>
-                                    merge(
-                                      merge(local.__distros_default_values, distro),
-                                      merge({boot=local.__distros_default_values.boot}, try(distro.boot, {}))
-                                    )
+                                    merge(local.__distros_default_values, distro)
                                 }
     
     name                      = each.key
