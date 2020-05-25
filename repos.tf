@@ -7,44 +7,39 @@ locals {
     comment = ""
   }
   
-  __repos_default_item = {
-    comment             = "",
-    arch                = "x86_64",
-    breed               = "yum",
-    local               = false,
-    updated             = true
+  __repos_default_values = {
+    link                          = null
+    
+    comment                       = "",
+    arch                          = "x86_64",
+    breed                         = "yum",
+    local                         = false,
+    update                        = true
   }
   
-  repos = {}
+  repos = {
+    pippo = {
+      link = "http://127.0.0.1/"
+    }
+  }
 }
 
 resource "cobbler_repo" "repos" {
-  for_each = toset(keys(local.repos))
+  for_each                = { for k, v in local.repos: k => merge(v, local.__repos_default_values) }
   
-    name                  = format("%s",
-                                          each.value
-                            )
-    comment               = try(
-                                  local.repos[each.value].comment,
-                                  local.defaults_repo.comment
-                            )
-    arch                  = try(
-                                  local.repos[each.value].arch,
-                                  local.defaults_repo.arch
-                            )
-    
-    breed                 = try(
-                                  local.repos[each.value].breed,
-                                  local.defaults_repo.breed
-                                )
-    mirror                = local.repos[each.value].mirror
+    name                  = format("%s", each.key)
+#   mirror                = local.repos[each.value].mirror
+    mirror                = each.value.link
   
-    mirror_locally        = try(
-                                  local.repos[each.value].mirrored,
-                                  local.defaults_repo.mirrored
-                                )
-    keep_updated          = try(
-                                  local.repos[each.value].updated,
-                                  local.defaults_repo.updated
-                            )
+#   comment               = try(local.repos[each.value].comment, local.defaults_repo.comment)
+    comment               = each.value.comment
+#   arch                  = try(local.repos[each.value].arch,local.defaults_repo.arch)
+    arch                  = each.value.arch
+#   breed                 = try(local.repos[each.value].breed,local.defaults_repo.breed)
+    breed                 = each.value.breed
+  
+#   mirror_locally        = try(local.repos[each.value].mirrored, local.defaults_repo.mirrored)
+    mirror_locally        = each.value.local
+#   keep_updated          = try(local.repos[each.value].updated,local.defaults_repo.updated)
+    keep_updated          = each.value.update
 }
