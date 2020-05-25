@@ -1,5 +1,5 @@
 locals {
-  __repos_default_values = {
+  __distros_default_values = {
     boot = {
       kernel                  = null,
       options                 = {},
