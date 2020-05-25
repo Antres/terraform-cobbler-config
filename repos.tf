@@ -12,7 +12,7 @@ locals {
     flags                         = "",               # --createrepo-flags=FLAGS              Createrepo Flags (Flags to use with createrepo)
     proxy                         = "",               # --proxy=PROXY                         External proxy URL (ex: http://example.com:8080)
     
-    owners                        = [],               # --owners=OWNERS                       Owners (Owners list for authz_ownership (space delimited))
+    owners                        = ["admin"],        # --owners=OWNERS                       Owners (Owners list for authz_ownership (space delimited))
     
     yum = {
       rpms                        = [],               # --rpm-list=RPMS                       RPM List (Mirror just these RPMs (yum only))
@@ -27,8 +27,6 @@ locals {
   }
   
   repos = {
-    pippo = {link= "http://127.0.0.1/centos"},
-    pluto = {link= "http://127.0.0.1/centos"},
   }
   
 }
@@ -50,7 +48,7 @@ resource "cobbler_repo" "repos" {
     createrepo_flags      = each.value.flags
     proxy                 = each.value.proxy
     
-#   owners                = each.value.owners
+    owners                = each.value.owners
     
     #yum
     rpm_list              = each.value.yum.rpms
