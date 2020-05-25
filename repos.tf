@@ -8,8 +8,11 @@ locals {
   }
   
   repos = {
-    test = {
-      mirror = "http://@@http_server@@/centos",
+    "CentOS-7-x86_64" = {
+      mirror = "http://@@http_server@@/centos/7/os",
+    },
+    "CentosPlus-7-x86_64" = {
+      mirror = "http://@@http_server@@/centos/7/centosplus",
     }
   }
 }
