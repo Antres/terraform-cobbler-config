@@ -2,7 +2,7 @@ locals {
   __distros_default_values = {
     boot = {
       kernel                  = null,
-      options                 = {},
+      options                 = "",
       initrd                  = null,
       others                  = [],
     },
@@ -28,7 +28,7 @@ locals {
   
   
   distros = {
-    pippo = {boot = {kernel="/mnt/images/pxeboot/vmlinuz", initrd="/mnt/images/pxeboot/initrd.img", options={opt1="optA", opt2="optB"}}}
+    pippo = {boot = {kernel="/mnt/images/pxeboot/vmlinuz", initrd="/mnt/images/pxeboot/initrd.img", others=["/mnt/images/pxeboot/TRANS.TBL"]}}
   }
 }
 
@@ -45,7 +45,7 @@ resource "cobbler_distro" "distros" {
     kernel                    = try(each.value.boot.kernel, local.__distros_default_values.boot.kernel)
     initrd                    = try(each.value.boot.initrd, local.__distros_default_values.boot.initrd)
     boot_files                = join(" ", try(each.value.boot.others, local.__distros_default_values.boot.others))
-    kernel_options            = join(" ", [ for name, value in try(each.value.boot.options, local.__distros_default_values.boot.options): format("%s=%s", name, value) ] )
+    kernel_options            = try(each.value.boot.options, local.__distros_default_values.boot.options)
       
     mgmt_classes              = try(each.value.cms.roles, local.__distros_default_values.cms.roles)
     template_files            = join(" ", [ for template, file in try(each.value.cms.templates, local.__distros_default_values.cms.templates): format("%s=%s", template, file) ] )
