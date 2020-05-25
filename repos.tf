@@ -1,11 +1,11 @@
 locals {
-  repos = [
-    "test" = {
+  repos = {
+    test = {
       mirror = "http://@@http_server@@/centos",
       arch = "x86_64",
       comment = "pippo"
     }
-  ]
+  }
 }
 
 resource "cobbler_repo" "my_repo" {
