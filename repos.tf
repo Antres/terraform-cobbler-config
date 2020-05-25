@@ -14,16 +14,14 @@ locals {
     
     owners                        = ["admin"],        # --owners=OWNERS                       Owners (Owners list for authz_ownership (space delimited))
     
-    yum = {
+    yum = {                                           #                                       Yum related options
       rpms                        = [],               # --rpm-list=RPMS                       RPM List (Mirror just these RPMs (yum only))
     },
     
-    apt = {
+    apt = {                                           #                                       Apt related options
       apt_components              = [],               # --apt-components=APT_COMPONENTS       Apt Components (apt only) (ex: main restricted universe)
       apt_dists                   = [],               # --apt-dists=APT_DISTS                 Apt Dist Names (apt only) (ex: precise precise-updates)
     },
-    
-    
   }
   
   repos = {
