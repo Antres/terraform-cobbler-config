@@ -1,10 +1,24 @@
+locals {
+  repos = [
+    "test" = {
+      mirror = "http://@@http_server@@/centos"
+      arch = "x86_64"
+      comment = "pippo"
+    }
+  ]
+}
+
 resource "cobbler_repo" "my_repo" {
-  name           = "test"
+  for_each = toset(local.repos)
   
-  breed          = "yum"
-  arch           = "x86_64"
-  mirror         = "http://@@http_server@@/centos"
+  name           = each.value
   
-  mirror_locally = false
-  keep_updated = true
+  breed          = try(local.repos[each.value].breed, "yum")
+  arch           = try(local.repos[each.value].arch, "x86_64")
+  mirror         = local.repos[each.value].mirror
+  
+  mirror_locally = try(local.repos[each.value].mirrored, false)
+  keep_updated = try(local.repos[each.value].updated, true)
+  
+  comment = try(local.repos[each.value].comment, "")
 }
