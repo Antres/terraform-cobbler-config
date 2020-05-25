@@ -1,9 +1,15 @@
 locals {
+  defaults_repo = {
+    arch = "x86_64",
+    breed = "yum",
+    mirrored = false,
+    updated = true,
+    comment = ""
+  }
+  
   repos = {
     test = {
       mirror = "http://@@http_server@@/centos",
-      arch = "x86_64",
-      comment = "pippo"
     }
   }
 }
@@ -13,12 +19,12 @@ resource "cobbler_repo" "my_repo" {
   
   name           = each.value
   
-  breed          = try(local.repos[each.value].breed, "yum")
-  arch           = try(local.repos[each.value].arch, "x86_64")
+  breed          = try(local.repos[each.value].breed, local.defaults_repo.breed)
+  arch           = try(local.repos[each.value].arch, local.defaults_repo.arch)
   mirror         = local.repos[each.value].mirror
   
-  mirror_locally = try(local.repos[each.value].mirrored, false)
-  keep_updated = try(local.repos[each.value].updated, true)
+  mirror_locally = try(local.repos[each.value].mirrored, local.defaults_repo.mirrored)
+  keep_updated = try(local.repos[each.value].updated, local.defaults_repo.updated)
   
-  comment = try(local.repos[each.value].comment, "")
+  comment = try(local.repos[each.value].comment, local.defaults_repo.comment)
 }
