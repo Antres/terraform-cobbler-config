@@ -54,9 +54,6 @@ resource "cobbler_distro" "distros" {
     kernel_options            = try(each.value.boot.options, local.__distros_default_values.boot.options)
     
     owners                    = try(each.value.owners, local.__distros_default_values.owners)
-  
-    mgmt_classes              = try(each.value.cms.roles, local.__distros_default_values.cms.roles)
-    template_files            = join(" ", [ for template, file in try(each.value.cms.templates, local.__distros_default_values.cms.templates): format("%s=%s", template, file) ] )
       
     redhat_management_key     = try(each.value.rh.key, local.__distros_default_values.rh.key)
     redhat_management_server  = try(each.value.rh.server, local.__distros_default_values.rh.server)
