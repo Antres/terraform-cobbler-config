@@ -1,8 +1,8 @@
 locals {
   repos = [
     "test" = {
-      mirror = "http://@@http_server@@/centos"
-      arch = "x86_64"
+      mirror = "http://@@http_server@@/centos",
+      arch = "x86_64",
       comment = "pippo"
     }
   ]
